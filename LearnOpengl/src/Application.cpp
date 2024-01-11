@@ -253,6 +253,38 @@ int main()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
+    /////////////////// Draw Object (4) 
+    // Object Vertices
+    float vertices3[] = {
+         0.5f,  0.5f, 0.0f,  // top right
+         0.5f, -0.5f, 0.0f,  // bottom right
+        -0.5f, -0.5f, 0.0f,  // bottom left
+        -0.5f,  0.5f, 0.0f   // top left 
+    };
+    unsigned int indices3[] = {  // note that we start from 0!
+        0, 1, 3,   // first triangle
+        1, 2, 3    // second triangle
+    };
+
+    unsigned int VAO3, VBO3, EBO3;
+    glGenVertexArrays(1, &VAO3);
+    glGenBuffers(1, &VBO3);
+    glGenBuffers(1, &EBO3);
+
+    glBindVertexArray(VAO3);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO3);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices3), vertices3, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO3);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices3), indices3, GL_STATIC_DRAW);
+
+    // 3. then set our vertex attributes pointers
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+
+
+    glBindVertexArray(0);
 
     //////////////////  Draw Loop
     while (!glfwWindowShouldClose(window))
@@ -270,16 +302,10 @@ int main()
         // ..:: Drawing code (in render loop) :: ..
         // 4. draw the object
         glUseProgram(shaderProgram0);
-        glBindVertexArray(VAO0);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glBindVertexArray(VAO3);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-        glUseProgram(shaderProgram1);
-        glBindVertexArray(VAO1);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
-        glUseProgram(shaderProgram2);
-        glBindVertexArray(VAO2);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
 
         // swap buffers and poll IO events
         glfwSwapBuffers(window);
