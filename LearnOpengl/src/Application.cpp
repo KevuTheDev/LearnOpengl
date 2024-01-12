@@ -21,9 +21,10 @@ const char* vertexShaderSource = "#version 330 core\n"
 
 const char* fragmentShaderSource = "#version 330 core\n"
 "out vec4 FragColor;\n"
+"uniform vec4 ourColor;\n"
 "void main()\n"
 "{\n"
-"   FragColor = vec4(0.1647f, 0.6157f, 0.5608f, 1.0f);\n"
+"   FragColor = ourColor;\n"
 "}\n\0";
 
 
@@ -95,15 +96,15 @@ int main()
 
 
     ////// Shader Program 0
-    unsigned int shaderProgram0;
-    shaderProgram0 = glCreateProgram();
-    glAttachShader(shaderProgram0, vertexShader);
-    glAttachShader(shaderProgram0, fragmentShader);
-    glLinkProgram(shaderProgram0);
+    unsigned int shaderProgram;
+    shaderProgram = glCreateProgram();
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragmentShader);
+    glLinkProgram(shaderProgram);
 
-    glGetProgramiv(shaderProgram0, GL_LINK_STATUS, &success);
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
     if (!success) {
-        glGetProgramInfoLog(shaderProgram0, 512, NULL, infoLog);
+        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::PROGRAM::ERROR\n" << infoLog << std::endl;
     }
     glDeleteShader(fragmentShader);
@@ -156,7 +157,15 @@ int main()
 
         // ..:: Drawing code (in render loop) :: ..
         // 4. draw the object
-        glUseProgram(shaderProgram0);
+        glUseProgram(shaderProgram);
+
+        float timeValue = glfwGetTime();
+        float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+        int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+        glUseProgram(shaderProgram);
+        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
+
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 
