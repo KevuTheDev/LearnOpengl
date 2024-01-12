@@ -18,5 +18,19 @@
     <ClCompile Include="src\Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\glsl\shader01.vs" />
+    <None Include="src\glsl\shader01.fs" />
+    <None Include="glsl\shader01.vs" />
+    <None Include="glsl\shader01.fs" />
   </ItemGroup>
 </Project>
