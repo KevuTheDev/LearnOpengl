@@ -56,14 +56,18 @@ int main()
 
     /////////////////// Draw Object
     // Object Vertices
+    // set up vertex data (and buffer(s)) and configure vertex attributes
+    // ------------------------------------------------------------------
     float vertices[] = {
-        // positions         // colors
-         0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
-         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // top 
+        // positions          // colors        
+         0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,  // top right
+         0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,  // bottom right
+        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,  // bottom left
+        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f   // top left 
     };
-    unsigned int indices[] = {  // note that we start from 0!
-        0, 1, 2,   // first triangle
+    unsigned int indices[] = {
+        0, 1, 3, // first triangle
+        1, 2, 3  // second triangle
     };
 
     unsigned int VAO, VBO, EBO;
@@ -109,7 +113,7 @@ int main()
 
 
         glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 
         // swap buffers and poll IO events
